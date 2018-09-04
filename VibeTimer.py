@@ -12,6 +12,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(18, GPIO.OUT)
 
+
 # Create connection to database
 def create_connection(db_file):
     try:
@@ -54,7 +55,7 @@ def clearVibe():
 
 # Begin timer
 def startTimer(vibeTimer):
-    print(f'Vibe Time is {vibeTimer} seconds.')
+    print('Vibe Time is ', vibeTimer, ' seconds.')
     print('Vibe Start')
     GPIO.output(18, GPIO.HIGH)
     time.sleep(vibeTimer)

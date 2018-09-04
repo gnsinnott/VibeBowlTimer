@@ -1,13 +1,16 @@
 import sqlite3
 from datetime import datetime
 import time
+import RPi.GPIO as GPIO
 
 
 # TO DO
 # ADD ALARM WHEN COMPLETE?
 # USE BARCODE AND SCANNER TO ENTER PART NUMBER
 # USE BARCODE FOR VIBE CLEARING PROCESS OR ALTERNATIVE METHOD?
-
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(18, GPIO.OUT)
 
 # Create connection to database
 def create_connection(db_file):
@@ -53,7 +56,9 @@ def clearVibe():
 def startTimer(vibeTimer):
     print(f'Vibe Time is {vibeTimer} seconds.')
     print('Vibe Start')
+    GPIO.output(18, GPIO.HIGH)
     time.sleep(vibeTimer)
+    GPIO.output(18, GPIO.LOW)
     print('Vibe Complete')
     clearVibe()
 

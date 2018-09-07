@@ -31,6 +31,7 @@ def getVibeTime(part):
         return(timer[0])
     else:
         error.configure(text='Part not found')
+        text.delete(first=0, last=tk.END)
         return(0)
 
 
@@ -41,6 +42,7 @@ def stopMachine():
         window.after_cancel(after_id)
         after_id = None
     vibeTimer.configure(text=0)
+    text.delete(first=0, last=tk.END)
     status.configure(text="Off")
     error.configure(text="None")
 
@@ -67,13 +69,14 @@ def submitPart(event=None):
     part = text.get()
     timer = getVibeTime(part)
     if timer != 0:
+        previousRun.configure(text=part)
         startMachine(timer)
 
 
 window = tk.Tk()
 window.title("Vibe Control Timer")
-window.geometry('480x320')
-window.option_add("*Font", "courier 14")
+window.geometry('720x480')
+window.option_add("*Font", "courier 20")
 prompt = tk.Label(window, text="Enter Part#:")
 prompt.grid(column=0, row=0)
 text = tk.Entry(window, width=15)
@@ -96,4 +99,8 @@ error = tk.Label(window, text="None")
 error.grid(column=1, row=3)
 stopButton = tk.Button(window, text='Stop!', command=stopMachine)
 stopButton.grid(column=2, row=3)
+previousRunLabel = tk.Label(window, text="Last/Running")
+previousRunLabel.grid(column=0, row=4)
+previousRun = tk.Label(window, text="")
+previousRun.grid(column=1, row=4)
 window.mainloop()

@@ -25,7 +25,7 @@ def createRecord(part, vibeTimer):
     sql = '''INSERT INTO Activity(Part, Time, VibeTime) VALUES (?,?,?)'''
     conn = create_connection(database)
     cur = conn.cursor()
-    currentTime = datetime.now()
+    currentTime = datetime.datetime.now()
     cur.execute(sql, (part, currentTime, vibeTimer))
     conn.commit()
     return(0)
@@ -39,7 +39,7 @@ def getVibeTime(part):
     timer = cur.fetchone()
     if timer is not None:
         vibeTime = timer[0]
-        createRecord(part, vibeTimer)
+        createRecord(part, vibeTime)
         return(vibeTime)
     else:
         error.configure(text='Part not found')
@@ -88,7 +88,7 @@ def submitPart(event=None):
 window = tk.Tk()
 window.title("Vibe Control Timer")
 window.geometry('480x320')
-window.option_add("*Font", "courier 20")
+window.option_add("*Font", "courier 15")
 prompt = tk.Label(window, text="Enter Part#:")
 prompt.grid(column=0, row=0)
 text = tk.Entry(window, width=15)
@@ -109,7 +109,7 @@ errorLable = tk.Label(window, text="Error:")
 errorLable.grid(column=0, row=3)
 error = tk.Label(window, text="None")
 error.grid(column=1, row=3)
-stopButton = tk.Button(window, text='Stop!', command=stopMachine)
+stopButton = tk.Button(window, text='STOP9223!', font="Verdana 75 bold", command=stopMachine)
 stopButton.grid(column=0, row=5, columnspan=3)
 previousRunLabel = tk.Label(window, text="Last/Running")
 previousRunLabel.grid(column=0, row=4)

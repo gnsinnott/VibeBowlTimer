@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import tkinter as tk
 import sqlite3
 import datetime
@@ -109,7 +110,7 @@ errorLable = tk.Label(window, text="Error:")
 errorLable.grid(column=0, row=3)
 error = tk.Label(window, text="None")
 error.grid(column=1, row=3)
-stopButton = tk.Button(window, text='STOP9223!', font="Verdana 75 bold", command=stopMachine)
+stopButton = tk.Button(window, text='STOP!', font="Verdana 75 bold", command=stopMachine)
 stopButton.grid(column=0, row=5, columnspan=3)
 previousRunLabel = tk.Label(window, text="Last/Running")
 previousRunLabel.grid(column=0, row=4)

@@ -75,7 +75,7 @@ def startMachine(timer):
     vibeTimer.configure(text=timerText)
     status.configure(text="Running")
     error.configure(text="None")
-    countdown(timer)
+    countdown(timer*60)
 
 
 def submitPart(event=None):

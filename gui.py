@@ -67,14 +67,14 @@ def stopMachine():
     if after_id:
         window.after_cancel(after_id)
         after_id = None
+    start.configure(state='normal')
+    text.configure(state='normal')
     vibeTimer.configure(text=0)
     canCount.configure(text="")
     text.delete(first=0, last=tk.END)
     status.configure(text="Off")
     error.configure(text="None")
-    start.configure(state='normal')
-    text.configure(state='normal')
-    window.bind('<Return>', submitPart)
+    # window.bind('<Return>', submitPart)
 
 
 def countdown(remaining):
@@ -94,7 +94,7 @@ def startMachine(timer, cans):
     timerText = timer, 'min'
     vibeTimer.configure(text=timerText)
     canText = cans
-    canCount.configure(text=canText )
+    canCount.configure(text=canText)
     status.configure(text="Running")
     error.configure(text="None")
     countdown(timer*60)
@@ -118,9 +118,11 @@ prompt.grid(column=0, row=0)
 text = tk.Entry(window, width=15)
 text.focus()
 text.grid(column=1, row=0)
-start = tk.Button(window, text="Start", command=submitPart)
-window.bind('<Return>', submitPart)
-start.grid(column=2, row=0)
+start = tk.Button(window, text="Start", height=6,
+                  width=6, bg='light green', font="Verdana 14 bold",
+                  command=submitPart)
+start.grid(column=2, row=0, rowspan=6)
+# window.bind('<Return>', submitPart)
 statusLabel = tk.Label(window, text="Machine Status: ")
 statusLabel.grid(column=0, row=1)
 status = tk.Label(window, text="Off")
@@ -133,7 +135,8 @@ errorLable = tk.Label(window, text="Error:")
 errorLable.grid(column=0, row=3)
 error = tk.Label(window, text="None")
 error.grid(column=1, row=3)
-stopButton = tk.Button(window, text='STOP!', font="Verdana 60 bold", command=stopMachine)
+stopButton = tk.Button(window, text='STOP!', font="Verdana 60 bold",
+                       bg='red', command=stopMachine)
 stopButton.grid(column=0, row=6, columnspan=3)
 previousRunLabel = tk.Label(window, text="Last/Running")
 previousRunLabel.grid(column=0, row=4)

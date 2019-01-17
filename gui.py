@@ -2,14 +2,14 @@
 import tkinter as tk
 import sqlite3
 import datetime
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 database = 'PartVibeTime.db'
 after_id = None
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(18, GPIO.OUT)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setwarnings(False)
+# GPIO.setup(18, GPIO.OUT)
 
 
 def create_connection(db_file):
@@ -48,31 +48,53 @@ def getVibeTime(part):
         return(0)
 
 
+def getCanCount(part):
+    sql = '''SELECT Cans from PartVibeTime where Part =?'''
+    conn = create_connection(database)
+    cur = conn.cursor()
+    cur.execute(sql, (part,))
+    cans = cur.fetchone()
+    if cans is not None:
+        canCount = cans[0]
+        return(canCount)
+    else:
+        return(0)
+
+
 def stopMachine():
-    GPIO.output(18, GPIO.LOW)
+    # GPIO.output(18, GPIO.LOW)
     global after_id
     if after_id:
         window.after_cancel(after_id)
         after_id = None
     vibeTimer.configure(text=0)
+    canCount.configure(text="")
     text.delete(first=0, last=tk.END)
     status.configure(text="Off")
     error.configure(text="None")
+    start.configure(state='normal')
+    text.configure(state='normal')
+    window.bind('<Return>', submitPart)
 
 
 def countdown(remaining):
     global after_id
     if remaining > 0:
-        GPIO.output(18, GPIO.HIGH)
+        # GPIO.output(18, GPIO.HIGH)
         vibeTimer.configure(text=str(datetime.timedelta(seconds=remaining)))
         after_id = window.after(1000, countdown, remaining-1)
     else:
         stopMachine()
 
 
-def startMachine(timer):
+def startMachine(timer, cans):
+    window.unbind('<Return>')
+    start.configure(state='disabled')
+    text.configure(state='disabled')
     timerText = timer, 'min'
     vibeTimer.configure(text=timerText)
+    canText = cans
+    canCount.configure(text=canText )
     status.configure(text="Running")
     error.configure(text="None")
     countdown(timer*60)
@@ -81,9 +103,10 @@ def startMachine(timer):
 def submitPart(event=None):
     part = text.get()
     timer = getVibeTime(part)
+    cans = getCanCount(part)
     if timer != 0:
         previousRun.configure(text=part)
-        startMachine(timer)
+        startMachine(timer, cans)
 
 
 window = tk.Tk()
@@ -110,10 +133,14 @@ errorLable = tk.Label(window, text="Error:")
 errorLable.grid(column=0, row=3)
 error = tk.Label(window, text="None")
 error.grid(column=1, row=3)
-stopButton = tk.Button(window, text='STOP!', font="Verdana 75 bold", command=stopMachine)
-stopButton.grid(column=0, row=5, columnspan=3)
+stopButton = tk.Button(window, text='STOP!', font="Verdana 60 bold", command=stopMachine)
+stopButton.grid(column=0, row=6, columnspan=3)
 previousRunLabel = tk.Label(window, text="Last/Running")
 previousRunLabel.grid(column=0, row=4)
 previousRun = tk.Label(window, text="")
 previousRun.grid(column=1, row=4)
+canCountLabel = tk.Label(window, text="# Of Cans:")
+canCountLabel.grid(column=0, row=5)
+canCount = tk.Label(window, text="")
+canCount.grid(column=1, row=5)
 window.mainloop()

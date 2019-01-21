@@ -2,6 +2,7 @@
 import tkinter as tk
 import sqlite3
 import datetime
+from PIL import Image, ImageTk
 # import RPi.GPIO as GPIO
 
 database = 'PartVibeTime.db'
@@ -118,7 +119,7 @@ def getPartData(event=None):
 
 window = tk.Tk()
 window.title("Vibe Control Timer")
-window.geometry('800x480')
+window.geometry('640x480')
 window.option_add("*Font", "courier 20")
 prompt = tk.Label(window, text="Enter Part#:")
 prompt.grid(column=0, row=0)
@@ -153,4 +154,9 @@ canCountLabel = tk.Label(window, text="# Of Cans:")
 canCountLabel.grid(column=0, row=3)
 canCount = tk.Label(window, text="")
 canCount.grid(column=1, row=3)
+Logo = Image.open("DynaLogo.png")
+Logo = Logo.resize((154, 52), Image.ANTIALIAS)
+Logo = ImageTk.PhotoImage(Logo)
+LogoLabel = tk.Label(window, image=Logo)
+LogoLabel.grid(column=0, row=7)
 window.mainloop()

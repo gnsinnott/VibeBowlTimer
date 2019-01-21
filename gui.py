@@ -2,7 +2,6 @@
 import tkinter as tk
 import sqlite3
 import datetime
-from PIL import Image, ImageTk
 # import RPi.GPIO as GPIO
 
 database = 'PartVibeTime.db'
@@ -154,9 +153,7 @@ canCountLabel = tk.Label(window, text="# Of Cans:")
 canCountLabel.grid(column=0, row=3)
 canCount = tk.Label(window, text="")
 canCount.grid(column=1, row=3)
-Logo = Image.open("DynaLogo.png")
-Logo = Logo.resize((154, 52), Image.ANTIALIAS)
-Logo = ImageTk.PhotoImage(Logo)
+Logo = tk.PhotoImage(file="DynaLogo.png")
 LogoLabel = tk.Label(window, image=Logo)
 LogoLabel.grid(column=0, row=7)
 window.mainloop()

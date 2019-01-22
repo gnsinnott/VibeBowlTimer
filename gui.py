@@ -2,14 +2,19 @@
 import tkinter as tk
 import sqlite3
 import datetime
-# import RPi.GPIO as GPIO
-
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    print("Import Error")
 database = 'PartVibeTime.db'
 after_id = None
 
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setwarnings(False)
-# GPIO.setup(18, GPIO.OUT)
+try:
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(18, GPIO.OUT)
+except NameError:
+    print("Set Name Error")
 
 
 def create_connection(db_file):
@@ -63,7 +68,10 @@ def getCanCount(part):
 
 
 def stopMachine():
-    # GPIO.output(18, GPIO.LOW)
+    try:
+        GPIO.output(18, GPIO.LOW)
+    except NameError:
+        print("Stop Name Error")
     global after_id
     if after_id:
         window.after_cancel(after_id)
@@ -81,7 +89,10 @@ def stopMachine():
 def countdown(remaining):
     global after_id
     if remaining > 0:
-        # GPIO.output(18, GPIO.HIGH)
+        try:
+            GPIO.output(18, GPIO.HIGH)
+        except NameError:
+            print("Start Name Error")
         vibeTimer.configure(text=str(datetime.timedelta(seconds=remaining)))
         after_id = window.after(1000, countdown, remaining-1)
     else:

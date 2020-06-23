@@ -4,5 +4,5 @@
 
 cd /
 cd home/pi/Documents/VibeBowlTimer
-sudo python3 gui.py
+sudo python3 LauncherGUI.py
 cd /

@@ -88,7 +88,7 @@ class DatabaseModifierGUI:
         part = self.partEntry.get()
         newTime = self.newTimeEntry.get()
         oldTime = self.currentTime.cget("text")
-        changeMessage = "Do you want to change the vibe time from: %s to %s" %(oldTime, newTime)
+        changeMessage = "Do you want to change the vibe time from: %s to %s" % (oldTime, newTime)
         confirmMessage = messagebox.askquestion("Make Change", changeMessage)
         if confirmMessage == 'yes':
             changeVibeTime(part, newTime)
